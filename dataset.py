@@ -30,53 +30,53 @@ URLS = [ {'fold': 0,  'url': 'https://www.dropbox.com/s/guxqijuyspgevu0/fold00.z
 
 class BIRD(Dataset):
 
-	def __init__(
-		self, 
-		root=None, 
-		folder_in_archive='BIRD',
-		ext_audio='.flac', 
-		download = False, 
-		room = [5.0, 15.0, 5.0, 15.0, 3.0, 4.0], 
-		beta = [0.2, 0.8],
-		c = [340.0, 355.0],
-		d = [0.04, 0.20],
+    def __init__(
+        self, 
+        root=None, 
+        folder_in_archive='BIRD',
+        ext_audio='.flac', 
+        download = False, 
+        room = [5.0, 15.0, 5.0, 15.0, 3.0, 4.0], 
+        beta = [0.2, 0.8],
+        c = [340.0, 355.0],
+        d = [0.04, 0.20],
         folds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
-	):
+    ):
 
-		self._path = os.path.join(root, folder_in_archive)
-		self._ext_audio = ext_audio
-		self._csv_file = os.path.join(root, folder_in_archive, 'bird.csv')
+        self._path = os.path.join(root, folder_in_archive)
+        self._ext_audio = ext_audio
+        self._csv_file = os.path.join(root, folder_in_archive, 'bird.csv')
 
-		df = pandas.read_csv(self._csv_file)
+        df = pandas.read_csv(self._csv_file)
 
-		dist = ((df['m1x'] - df['m2x']) ** 2 + (df['m1y'] - df['m2y']) ** 2 + (df['m1z'] - df['m2z']) ** 2) ** 0.5
+        dist = ((df['m1x'] - df['m2x']) ** 2 + (df['m1y'] - df['m2y']) ** 2 + (df['m1z'] - df['m2z']) ** 2) ** 0.5
 
-		filter_room = (df['Lx'] >= room[0]) & (df['Lx'] <= room[1]) & (df['Ly'] >= room[2]) & (df['Ly'] <= room[3]) & (df['Lz'] >= room[4]) & (df['Lz'] <= room[5])
-		filter_c = (df['c'] >= c[0]) & (df['c'] <= c[1])
-		filter_beta = (df['beta'] >= beta[0]) & (df['beta'] <= beta[1])
-		filter_d = (dist >= d[0]) & (dist <= d[1])
+        filter_room = (df['Lx'] >= room[0]) & (df['Lx'] <= room[1]) & (df['Ly'] >= room[2]) & (df['Ly'] <= room[3]) & (df['Lz'] >= room[4]) & (df['Lz'] <= room[5])
+        filter_c = (df['c'] >= c[0]) & (df['c'] <= c[1])
+        filter_beta = (df['beta'] >= beta[0]) & (df['beta'] <= beta[1])
+        filter_d = (dist >= d[0]) & (dist <= d[1])
 
-		filter_all = filter_room & filter_c & filter_beta & filter_d
+        filter_all = filter_room & filter_c & filter_beta & filter_d
 
-		self._df = df[filter_all]
+        self._df = df[filter_all]
 
-	def __len__(self):
+    def __len__(self):
 
-		return len(self._df)
+        return len(self._df)
 
-	def __getitem__(self, idx):
+    def __getitem__(self, idx):
 
-		item = self._df.iloc[idx]
+        item = self._df.iloc[idx]
 
-		key = item['id']
-		path = os.path.join(self._path, key[0], key[1], key[2], key+self._ext_audio)
-		x, _ = torchaudio.load(path)
+        key = item['id']
+        path = os.path.join(self._path, key[0], key[1], key[2], key+self._ext_audio)
+        x, _ = torchaudio.load(path)
 
-		meta = {}
-		meta['L'] = [item['Lx'], item['Ly'], item['Lz']]
-		meta['beta'] = item['beta']
-		meta['c'] = item['c']
-		meta['mics'] = [[item['m1x'], item['m1y'], item['m1z']], [item['m2x'], item['m2y'], item['m2z']]]
-		meta['srcs'] = [[item['s1x'], item['s1y'], item['s1z']], [item['s2x'], item['s2y'], item['s2z']], [item['s3x'], item['s3y'], item['s3z']], [item['s4x'], item['s4y'], item['s4z']]]
+        meta = {}
+        meta['L'] = [item['Lx'], item['Ly'], item['Lz']]
+        meta['beta'] = item['beta']
+        meta['c'] = item['c']
+        meta['mics'] = [[item['m1x'], item['m1y'], item['m1z']], [item['m2x'], item['m2y'], item['m2z']]]
+        meta['srcs'] = [[item['s1x'], item['s1y'], item['s1z']], [item['s2x'], item['s2y'], item['s2z']], [item['s3x'], item['s3y'], item['s3z']], [item['s4x'], item['s4y'], item['s4z']]]
 
-		return x, meta
+        return x, meta
