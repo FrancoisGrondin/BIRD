@@ -1,9 +1,10 @@
 
 from dataset import BIRD
+import matplotlib.pyplot as plt
 
-bird = BIRD(root='/media/fgrondin/Scratch/tmp/', d=[0.049, 0.051], folds=[0, 1])
+bird = BIRD(root='/Users/grof2802/Downloads/', folds=[0, 1])
 
-x, meta = bird[600]
+x, meta = bird[0]
 
-print(x.shape)
-print(meta)
+print(len(bird))
+
