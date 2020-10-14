@@ -7,22 +7,23 @@ import torchaudio
 from torch.utils.data import Dataset
 from torchaudio.datasets.utils import (download_url, extract_archive, walk_files)
 
-URLS = [ {'url': 'https://www.dropbox.com/s/6dvlgpo1eo7me4v/fold01.zip?dl=0', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/37nt7g20sjwkwcr/fold02.zip?dl=0', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/ioba7ied7p4xpmr/fold03.zip?dl=0', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/k5az3t6zis018z4/fold04.zip?dl=0', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/1dzi6o6ktcfebj8/fold05.zip?dl=0', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/ujxw8sq83vnio1l/fold06.zip?dl=0', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/2avtbjf4gadrf31/fold07.zip?dl=0', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/ekte8957bemelrb/fold08.zip?dl=0', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/j6at686fnkfhuf5/fold09.zip?dl=0', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/wspip9kyed1jjmr/fold10.zip?dl=0', 'checksum': None} ]
+URLS = [ {},
+         {'url': 'https://www.dropbox.com/s/6dvlgpo1eo7me4v/fold01.zip?dl=1', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/37nt7g20sjwkwcr/fold02.zip?dl=1', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/ioba7ied7p4xpmr/fold03.zip?dl=1', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/k5az3t6zis018z4/fold04.zip?dl=1', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/1dzi6o6ktcfebj8/fold05.zip?dl=1', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/ujxw8sq83vnio1l/fold06.zip?dl=1', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/2avtbjf4gadrf31/fold07.zip?dl=1', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/ekte8957bemelrb/fold08.zip?dl=1', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/j6at686fnkfhuf5/fold09.zip?dl=1', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/wspip9kyed1jjmr/fold10.zip?dl=1', 'checksum': None} ]
 
 class BIRD(Dataset):
 
     def __init__(
         self, 
-        root=None, 
+        root, 
         folder_in_archive='BIRD',
         ext_audio='.flac', 
         room = [5.0, 15.0, 5.0, 15.0, 3.0, 4.0], 
@@ -65,7 +66,7 @@ class BIRD(Dataset):
             filter_alpha = (df['alpha'] >= alpha[0]) & (df['alpha'] <= alpha[1])
             filter_d = (dist >= (d[0]-eps)) & (dist <= (d[1]+eps))
 
-            filter_all = filter_room & filter_c & filter_beta & filter_d
+            filter_all = filter_room & filter_c & filter_alpha & filter_d
 
             self._df = pandas.concat([self._df, df[filter_all]])
 
@@ -91,3 +92,70 @@ class BIRD(Dataset):
         meta['srcs'] = [[item['s1x'], item['s1y'], item['s1z']], [item['s2x'], item['s2y'], item['s2z']], [item['s3x'], item['s3y'], item['s3z']], [item['s4x'], item['s4y'], item['s4z']]]
 
         return x, meta
+
+    @staticmethod
+    def getRT60(meta):
+
+        c = meta['c']
+        alpha = meta['alpha']
+        Lx = meta['L'][0]
+        Ly = meta['L'][1]
+        Lz = meta['L'][2]
+
+        rt60 = (27.6310 / (alpha * c)) * (Lx*Ly*Lz/(Lx*Ly + Ly*Lz + Lz*Lx))
+
+        return rt60
+
+    @staticmethod
+    def getTDOA(meta):
+
+        eps = 1E-10
+
+        fs = 16000.0
+        c = meta['c']
+
+        m1x = meta['mics'][0][0]
+        m1y = meta['mics'][0][1]
+        m1z = meta['mics'][0][2]
+
+        m2x = meta['mics'][1][0]
+        m2y = meta['mics'][1][1]
+        m2z = meta['mics'][1][2]
+
+        dmx = m1x - m2x
+        dmy = m1y - m2y
+        dmz = m1z - m2z
+
+        mmx = 0.5 * (m1x + m2x)
+        mmy = 0.5 * (m1y + m2y)
+        mmz = 0.5 * (m1z + m2z)
+
+        fx = (fs/c) * dmx
+        fy = (fs/c) * dmy
+        fz = (fs/c) * dmz
+
+        I = len(meta['srcs'])
+
+        tdoas = []
+
+        for i in range(0,I):
+
+            six = meta['srcs'][i][0]
+            siy = meta['srcs'][i][1]
+            siz = meta['srcs'][i][2]
+
+            diffx = six - mmx
+            diffy = siy - mmy
+            diffz = siz - mmz
+
+            norm = (diffx ** 2 + diffy ** 2 + diffz ** 2) ** 0.5
+
+            nx = diffx / (norm + eps)
+            ny = diffy / (norm + eps)
+            nz = diffz / (norm + eps)
+
+            tau = fx * nx + fy * ny + fz * nz
+
+            tdoas.append(tau)
+
+        return tdoas
