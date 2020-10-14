@@ -1,9 +1,13 @@
 
-from dataset import BIRD
+import argparse
+from bird import BIRD
+from torchaudio.datasets import LIBRISPEECH
 
-bird = BIRD(root='/media/fgrondin/Scratch/tmp/', d=[0.049, 0.051], folds=[0, 1])
+parser = argparse.ArgumentParser()
 
-x, meta = bird[600]
+parser.add_argument('--root', default='', type=str, help='Root to save the datasets')
 
-print(x.shape)
-print(meta)
+args = parser.parse_args()
+
+rir = BIRD(root=args.root, folder_in_archive='Bird')
+speech = LIBRISPEECH(root=args.root, folder_in_archive='LibriSpeech', url='train-clean-100', download=True)

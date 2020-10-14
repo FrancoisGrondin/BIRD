@@ -7,26 +7,16 @@ import torchaudio
 from torch.utils.data import Dataset
 from torchaudio.datasets.utils import (download_url, extract_archive, walk_files)
 
-URLS = [ {'url': 'https://www.dropbox.com/s/guxqijuyspgevu0/fold00.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/o9wm1p1lf542knx/fold01.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/kfijdgbxaasutge/fold02.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/hmozp7u9cxwpz2a/fold03.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/vnnm4omswlhzakk/fold04.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/yufpa38tl1lzs8t/fold05.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/0xkyrub3m2udy5y/fold06.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/qlsgj1cz9p2jlb9/fold07.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/dwl836vyarmobv6/fold08.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/5ut4whnw3c5bnqw/fold09.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/g51x0f6hjpu9f4i/fold10.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/x023092a9zujruh/fold11.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/fs4izb5ncohyng8/fold12.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/o99uobxebz6a6p9/fold13.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/u6cxp2gezd4t0se/fold14.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/p8igu18hs0o504c/fold15.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/tmbbswj7he9md52/fold16.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/r6ynn6lkz7zyezr/fold17.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/2xec5nrohb4xtvx/fold18.zip?dl=1', 'checksum': None},
-         {'url': 'https://www.dropbox.com/s/hbx3x0lj8od56sl/fold19.zip?dl=1', 'checksum': None} ]
+URLS = [ {'url': 'https://www.dropbox.com/s/6dvlgpo1eo7me4v/fold01.zip?dl=0', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/37nt7g20sjwkwcr/fold02.zip?dl=0', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/ioba7ied7p4xpmr/fold03.zip?dl=0', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/k5az3t6zis018z4/fold04.zip?dl=0', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/1dzi6o6ktcfebj8/fold05.zip?dl=0', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/ujxw8sq83vnio1l/fold06.zip?dl=0', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/2avtbjf4gadrf31/fold07.zip?dl=0', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/ekte8957bemelrb/fold08.zip?dl=0', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/j6at686fnkfhuf5/fold09.zip?dl=0', 'checksum': None},
+         {'url': 'https://www.dropbox.com/s/wspip9kyed1jjmr/fold10.zip?dl=0', 'checksum': None} ]
 
 class BIRD(Dataset):
 
@@ -36,15 +26,17 @@ class BIRD(Dataset):
         folder_in_archive='BIRD',
         ext_audio='.flac', 
         room = [5.0, 15.0, 5.0, 15.0, 3.0, 4.0], 
-        beta = [0.2, 0.8],
-        c = [340.0, 355.0],
-        d = [0.04, 0.20],
-        folds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+        alpha = [0.2, 0.8],
+        c = [335.0, 355.0],
+        d = [0.01, 0.30],
+        folds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     ):
 
         self._path = os.path.join(root, folder_in_archive)
         self._ext_audio = ext_audio
         self._df = None
+
+        eps = 1E-2
 
         if not os.path.isdir(self._path):
             os.mkdir(self._path)
@@ -70,8 +62,8 @@ class BIRD(Dataset):
 
             filter_room = (df['Lx'] >= room[0]) & (df['Lx'] <= room[1]) & (df['Ly'] >= room[2]) & (df['Ly'] <= room[3]) & (df['Lz'] >= room[4]) & (df['Lz'] <= room[5])
             filter_c = (df['c'] >= c[0]) & (df['c'] <= c[1])
-            filter_beta = (df['beta'] >= beta[0]) & (df['beta'] <= beta[1])
-            filter_d = (dist >= d[0]) & (dist <= d[1])
+            filter_alpha = (df['alpha'] >= alpha[0]) & (df['alpha'] <= alpha[1])
+            filter_d = (dist >= (d[0]-eps)) & (dist <= (d[1]+eps))
 
             filter_all = filter_room & filter_c & filter_beta & filter_d
 
@@ -93,7 +85,7 @@ class BIRD(Dataset):
 
         meta = {}
         meta['L'] = [item['Lx'], item['Ly'], item['Lz']]
-        meta['beta'] = item['beta']
+        meta['alpha'] = item['alpha']
         meta['c'] = item['c']
         meta['mics'] = [[item['m1x'], item['m1y'], item['m1z']], [item['m2x'], item['m2y'], item['m2z']]]
         meta['srcs'] = [[item['s1x'], item['s1y'], item['s1z']], [item['s2x'], item['s2y'], item['s2z']], [item['s3x'], item['s3y'], item['s3z']], [item['s4x'], item['s4y'], item['s4z']]]
