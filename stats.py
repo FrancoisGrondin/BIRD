@@ -1,7 +1,6 @@
 
 import argparse
 from bird import BIRD
-from torchaudio.datasets import LIBRISPEECH
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,7 +13,6 @@ parser.add_argument('--root', default='', type=str, help='Root to save the datas
 args = parser.parse_args()
 
 rir = BIRD(root=args.root, folder_in_archive='Bird', folds=[1])
-#speech = LIBRISPEECH(root=args.root, folder_in_archive='LibriSpeech', url='train-clean-100', download=True)
 
 rt60s = np.zeros(len(rir), dtype=np.float32)
 
@@ -28,7 +26,7 @@ for h, meta in progressbar.progressbar(rir):
 counts, bins = plt.hist(rt60s, bins=np.linspace(0.0,2.0,201))
 plt.show()
 
-meanbins = bins[1:]
+meanbins = 0.5 * (bins[1:] + bins[:-1])
 
-print(rtn[0])
-print(rtn[1])
+print(counts)
+print(meanbins)
