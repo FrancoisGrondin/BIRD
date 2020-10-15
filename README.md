@@ -16,7 +16,7 @@ pip3 install -r requirements.txt
 2. Download the complete dataset and store it on your hardware (11.3 GB):
 
 ```
-python3 download.py
+python3 tools/download.py
 ```
 
 ## Visualize the dataset
@@ -28,7 +28,7 @@ We can visualize a sample from the dataset. Suppose we want to look at sample 4,
 Launch the following script:
 
 ```
-python3 visualize.py --view room --item 4
+python3 tools/visualize.py --view room --item 4
 ```
 
 Which returns the following plot:
@@ -40,7 +40,7 @@ Which returns the following plot:
 Launch the following script:
 
 ```
-python3 visualize.py --view rir --item 4
+python3 tools/visualize.py --view rir --item 4
 ```
 
 Which returns the following plot:
@@ -52,7 +52,7 @@ Which returns the following plot:
 Launch the following script:
 
 ```
-python3 visualize.py --view meta --item 4
+python3 tools/visualize.py --view meta --item 4
 ```
 
 Which prints the following string in the terminal:
