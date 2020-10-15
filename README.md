@@ -28,3 +28,5 @@ To visualize a sample from the dataset, use the following commands:
 ```
 python3 visualize.py --view room
 ```
+
+![Room configuration](/room.png)
