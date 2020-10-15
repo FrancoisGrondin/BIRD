@@ -25,25 +25,37 @@ We can visualize a sample from the dataset. Suppose we want to look at sample 4,
 
 ### Show the room configuration
 
+Launch the following script:
+
 ```
 python3 visualize.py --view room --item 4
 ```
+
+Which returns the following plot:
 
 ![Room configuration](/images/room.png)
 
 ### Show the room impulse responses
 
+Launch the following script:
+
 ```
 python3 visualize.py --view rir --item 4
 ```
+
+Which returns the following plot:
 
 ![Room Impulse Responses](/images/rir.png)
 
 ### Display the META data
 
+Launch the following script:
+
 ```
 python3 visualize.py --view meta --item 4
 ```
+
+Which prints the following string in the terminal:
 
 ```
 {
