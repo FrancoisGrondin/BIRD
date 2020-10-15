@@ -5,7 +5,7 @@ This makes it the **largest multichannel open dataset currently available**.
 We provide some Python code that shows how to download and use this dataset to perform online data augmentation.
 The code is compatible with the PyTorch dataset class, which eases integration in existing deep learning projects based on this framework.
 
-## Citing this work
+## Paper
 
 If you use BIRD in your research, please consider citing the [official paper](http://arxiv.org):
 
