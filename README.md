@@ -1,6 +1,7 @@
 # BIRD: Big Impulse Response Dataset
 
-BIRD is an open dataset that consists of 100,000 multichannel room impulse responses generated using the image method.
+BIRD is an **open dataset that consists of 100,000 multichannel room impulse responses** generated using the image method.
+This makes it the **largest multichannel open dataset currently available**.
 We provide some Python code that shows how to download and use this dataset to perform online data augmentation.
 
 ## Download the dataset
