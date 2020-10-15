@@ -19,6 +19,21 @@ pip3 install -r requirements.txt
 python3 tools/download.py
 ```
 
+## Citing this work
+
+If you use BIRD in your research, please consider citing the official paper:
+
+Grondin, F., Lauzon, J.-S., Michaud, S., Ravanelli, M. and Michaud, F., "BIRD: Big Impulse Response Dataset", *Arxiv link*, 2021
+
+```
+@inproceedings{grondin2021bird,
+  title={BIRD: Big Impulse Response Dataset},
+  author={Grondin, Fran{\c{c}}ois and Lauzon, Jean-Samuel and Michaud, Simon and Ravanelli, Mirco and Michaud, Fran{\c}ois},
+  booktitle={Arxiv link},
+  year={2021}
+}
+```
+
 ## Visualize the dataset
 
 We can visualize a sample from the dataset. Suppose we want to look at sample 4, we would use the following commands:
@@ -70,3 +85,23 @@ Which prints the following string in the terminal:
              [12.164, 8.109, 2.161]]
 }
 ```
+
+## Examples
+
+Here are a few examples that show how BIRD can be used to perform data augmentation.
+
+### Sound Source Localization
+
+TBD
+
+### Counting Speech Sources
+
+TBD
+
+### Reverberation Time Estimation
+
+TBD
+
+### Counting Speech Sources
+
+TBD
