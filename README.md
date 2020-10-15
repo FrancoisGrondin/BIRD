@@ -3,6 +3,20 @@
 BIRD is an open dataset that consists of 100,000 multichannel room impulse responses generated using the image method.
 This makes it the **largest multichannel open dataset currently available**.
 We provide some Python code that shows how to download and use this dataset to perform online data augmentation.
+The code is compatible with the PyTorch dataset class, which eases integration in existing deep learning projects based on this framework.
+
+## Citing this work
+
+If you use BIRD in your research, please consider citing the [official paper](http://arxiv.org):
+
+```
+@inproceedings{grondin2021bird,
+  title={BIRD: Big Impulse Response Dataset},
+  author={Grondin, Fran{\c{c}}ois and Lauzon, Jean-Samuel and Michaud, Simon and Ravanelli, Mirco and Michaud, Fran{\c}ois},
+  booktitle={Arxiv link},
+  year={2021}
+}
+```
 
 ## Download the dataset
 
@@ -18,19 +32,6 @@ pip3 install -r requirements.txt
 
 ```
 python3 tools/download.py
-```
-
-## Citing this work
-
-If you use BIRD in your research, please consider citing the [official paper](http://arxiv.org):
-
-```
-@inproceedings{grondin2021bird,
-  title={BIRD: Big Impulse Response Dataset},
-  author={Grondin, Fran{\c{c}}ois and Lauzon, Jean-Samuel and Michaud, Simon and Ravanelli, Mirco and Michaud, Fran{\c}ois},
-  booktitle={Arxiv link},
-  year={2021}
-}
 ```
 
 ## Visualize the dataset
