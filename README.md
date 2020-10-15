@@ -21,9 +21,7 @@ python3 tools/download.py
 
 ## Citing this work
 
-If you use BIRD in your research, please consider citing the official paper:
-
-Grondin, F., Lauzon, J.-S., Michaud, S., Ravanelli, M. and Michaud, F., "BIRD: Big Impulse Response Dataset", *Arxiv link*, 2021
+If you use BIRD in your research, please consider citing the [official paper][http://arxiv.org]:
 
 ```
 @inproceedings{grondin2021bird,
