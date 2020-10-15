@@ -18,3 +18,13 @@ pip3 install -r requirements.txt
 ```
 python3 download.py
 ```
+
+## Visualize the dataset
+
+To visualize a sample from the dataset, use the following commands:
+
+### Show the room configuration
+
+```
+python3 visualize.py --view room
+```
