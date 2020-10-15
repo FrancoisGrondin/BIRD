@@ -21,7 +21,7 @@ python3 tools/download.py
 
 ## Citing this work
 
-If you use BIRD in your research, please consider citing the [official paper][http://arxiv.org]:
+If you use BIRD in your research, please consider citing the [official paper](http://arxiv.org):
 
 ```
 @inproceedings{grondin2021bird,
