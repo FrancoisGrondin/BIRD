@@ -29,7 +29,7 @@ We can visualize a sample from the dataset. Suppose we want to look at sample 4,
 python3 visualize.py --view room --item 4
 ```
 
-![Room configuration](/room.png)
+![Room configuration](/images/room.png)
 
 ### Show the room impulse responses
 
@@ -37,7 +37,7 @@ python3 visualize.py --view room --item 4
 python3 visualize.py --view rir --item 4
 ```
 
-![Room Impulse Responses](/rir.png)
+![Room Impulse Responses](/images/rir.png)
 
 ### Display the META data
 
