@@ -26,7 +26,15 @@ To visualize a sample from the dataset, use the following commands:
 ### Show the room configuration
 
 ```
-python3 visualize.py --view room
+python3 visualize.py --view room --item 4
 ```
 
 ![Room configuration](/room.png)
+
+## Show the room impulse responses
+
+```
+python3 visualize.py --view rir --item 4
+```
+
+![Room Impulse Responses](/rir.png)
