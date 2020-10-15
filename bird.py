@@ -53,6 +53,7 @@ class BIRD(Dataset):
                     download_url(URLS[fold]['url'], self._path)
                 print('Extracting fold %u...' % fold)
                 extract_archive(archive)
+                os.remove(archive)
 
             csv_file = os.path.join(directory, 'fold%02u.csv' % fold)
 
