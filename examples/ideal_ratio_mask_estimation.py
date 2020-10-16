@@ -54,7 +54,7 @@ plt.title(r'$10 \log |Y_2|^2$')
 plt.xlabel('Frame index')
 plt.ylabel('Frequency index')
 plt.tight_layout()
-plt.show()
+plt.figure()
 
 plt.subplot(2,1,1)
 plt.imshow(M1, aspect='auto')

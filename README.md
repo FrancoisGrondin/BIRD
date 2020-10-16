@@ -113,7 +113,7 @@ tensor([-2.3261,  2.0721], dtype=torch.float64)
 Launch the following script:
 
 ```
-python3 examples/sound_source_localization.py
+python3 examples/reverberation_time_estimation.py
 ```
 
 Which outputs the following spectrograms:
