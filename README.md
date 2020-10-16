@@ -118,7 +118,7 @@ python3 examples/sound_source_localization.py
 
 Which outputs the following spectrograms:
 
-![SSL Spectrogram](/images/rt60_spex.png)
+![RT60 Spectrogram](/images/rt60_spex.png)
 
 And generates the following RT60:
 
@@ -136,7 +136,7 @@ python3 examples/counting_speech_sources.py
 
 Which outputs the following spectrograms:
 
-![SSL Spectrogram](/images/cnt_spex.png)
+![CNT Spectrogram](/images/cnt_spex.png)
 
 And generates the following source count:
 
@@ -146,5 +146,16 @@ And generates the following source count:
 
 ### Ideal Ratio Mask Estimation
 
-TBD
+Launch the following script:
 
+```
+python3 examples/ideal_ratio_mask_estimation.py
+```
+
+Which outputs the following spectrograms:
+
+![IRM Spectrogram](/images/irm_spex.png)
+
+And the following ideal ratio mask:
+
+![IRM Mask](/images/irm_mask.png)

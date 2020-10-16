@@ -31,6 +31,8 @@ class MIX:
 
 		ys = np.zeros((self.duration,2), dtype=np.float32)
 
+		xs = np.zeros((count,self.duration,2), dtype=np.float32)
+
 		for i in range(0, count):
 
 			h1 = hs[i*2+0,:].numpy()
@@ -55,8 +57,11 @@ class MIX:
 
 			g = 10 ** (self.snrs[idx,i] / 10.0)
 
+			xs[i,:,0] = g * y1
+			xs[i,:,1] = g * y2
+
 			ys[:,0] += g * y1
 			ys[:,1] += g * y2
 
-		return ys, meta, count
+		return ys, meta, count, xs
 
