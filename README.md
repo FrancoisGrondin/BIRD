@@ -108,10 +108,6 @@ And generates the following TDOAs:
 tensor([-2.3261,  2.0721], dtype=torch.float64)
 ```
 
-### Counting Speech Sources
-
-TBD
-
 ### Reverberation Time Estimation
 
 Launch the following script:
@@ -147,3 +143,8 @@ And generates the following source count:
 ```
 3
 ```
+
+### Ideal Ratio Mask Estimation
+
+TBD
+
