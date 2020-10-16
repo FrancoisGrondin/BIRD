@@ -136,7 +136,7 @@ class IRM:
 
 		M1s = (X1s[0,:,:,0] ** 2 + X1s[0,:,:,1] ** 2) / (X1s[0,:,:,0] ** 2 + X1s[0,:,:,1] ** 2 + X2s[0,:,:,0] ** 2 + X2s[0,:,:,1] ** 2)
 		M2s = (X1s[1,:,:,0] ** 2 + X1s[1,:,:,1] ** 2) / (X1s[1,:,:,0] ** 2 + X1s[1,:,:,1] ** 2 + X2s[1,:,:,0] ** 2 + X2s[1,:,:,1] ** 2)
-		Ms = M1s * M2s
+		Ms = torch.cat((torch.unsqueeze(M1s, dim=0), torch.unsqueeze(M2s, dim=0)), 0)
 
 		return Ys, Ms
 
