@@ -58,5 +58,5 @@ class MIX:
 			ys[:,0] += g * y1
 			ys[:,1] += g * y2
 
-		return ys, meta
+		return ys, meta, count
 

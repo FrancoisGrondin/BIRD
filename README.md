@@ -132,4 +132,18 @@ And generates the following RT60:
 
 ### Counting Speech Sources
 
-TBD
+Launch the following script:
+
+```
+python3 examples/counting_speech_sources.py
+```
+
+Which outputs the following spectrograms:
+
+![SSL Spectrogram](/images/cnt_spex.png)
+
+And generates the following source count:
+
+```
+3
+```

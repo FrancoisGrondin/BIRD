@@ -10,7 +10,7 @@ sys.path.insert(0, parent_dir)
 
 from bird import BIRD
 from torchaudio.datasets import LIBRISPEECH
-from augment import SSL, RT60
+from augment import RT60
 
 parser = argparse.ArgumentParser()
 
