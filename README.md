@@ -92,7 +92,21 @@ Here are a few examples that show how BIRD can be used to perform data augmentat
 
 ### Sound Source Localization
 
-TBD
+Launch the following script:
+
+```
+python3 examples/sound_source_localization.py
+```
+
+Which outputs the following spectrograms:
+
+![SSL Spectrogram](/images/ssl_spex.png)
+
+And generates the following TDOAs:
+
+```
+tensor([-2.3261,  2.0721], dtype=torch.float64)
+```
 
 ### Counting Speech Sources
 
@@ -100,7 +114,21 @@ TBD
 
 ### Reverberation Time Estimation
 
-TBD
+Launch the following script:
+
+```
+python3 examples/sound_source_localization.py
+```
+
+Which outputs the following spectrograms:
+
+![SSL Spectrogram](/images/rt60_spex.png)
+
+And generates the following RT60:
+
+```
+0.416
+```
 
 ### Counting Speech Sources
 
