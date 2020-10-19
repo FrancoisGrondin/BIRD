@@ -1,4 +1,9 @@
 
+# Author: Francois Grondin
+# Date: October 19, 2020
+# Affiliation: Universite de Sherbrooke
+# Contact: francois.grondin2@usherbrooke.ca
+
 from mix import MIX
 from bird import BIRD
 import torchaudio
@@ -6,13 +11,25 @@ import torch
 
 class SSL:
 
+    # This dataset uses a room impulse response and a speech datasets, to create augmented
+    # data to perform sound source localization.
+    #
+    # rir                   Room impulse response dataset (e.g. BIRD).
+    # speech                Speech dataset (e.g. LibriSpeech).
+    # samples_count         Number of augmented segments to generate.
+
 	def __init__(self, rir, speech, samples_count):
 
 		self.mix = MIX(rir=rir, speech=speech, count=[2,2], duration=80000, samples_count=samples_count)
 
+    # Return the number of samples.
+
 	def __len__(self):
 
 		return len(self.mix)
+
+    # Return the item at index idx. This returns the STFTs of microphones 1 and 2, and the 
+    # TDOAs of sources 1 and 2
 
 	def __getitem__(self, idx):
 
@@ -36,13 +53,25 @@ class SSL:
 
 class RT60:
 
+    # This dataset uses a room impulse response and a speech datasets, to create augmented
+    # data to estimate the reverberation time RT60.
+    #
+    # rir                   Room impulse response dataset (e.g. BIRD).
+    # speech                Speech dataset (e.g. LibriSpeech).
+    # samples_count         Number of augmented segments to generate.
+
 	def __init__(self, rir, speech, samples_count):
 
 		self.mix = MIX(rir=rir, speech=speech, count=[1,1], duration=80000, samples_count=samples_count)
 
+    # Return the number of samples.
+
 	def __len__(self):
 
 		return len(self.mix)
+
+    # Return the item at index idx. This returns the STFTs of microphones 1 and 2, and the 
+    # RT60 value for the room
 
 	def __getitem__(self, idx):
 
@@ -65,13 +94,25 @@ class RT60:
 
 class CNT:
 
+    # This dataset uses a room impulse response and a speech datasets, to create augmented
+    # data to count the number of sources (between 1 and 4).
+    #
+    # rir                   Room impulse response dataset (e.g. BIRD)
+    # speech                Speech dataset (e.g. LibriSpeech)
+    # samples_count         Number of augmented segments to generate
+
 	def __init__(self, rir, speech, samples_count):
 
 		self.mix = MIX(rir=rir, speech=speech, count=[1,4], duration=80000, samples_count=samples_count)
 
+    # Return the number of samples.
+
 	def __len__(self):
 
 		return len(self.mix)
+
+    # Return the item at index idx. This returns the STFTs of microphones 1 and 2, and the 
+    # number of active sources (between 1 and 4)
 
 	def __getitem__(self, idx):
 
@@ -92,13 +133,25 @@ class CNT:
 
 class IRM:
 
+    # This dataset uses a room impulse response and a speech datasets, to create augmented
+    # data to estimate an ideal ratio mask for the target sound source.
+    #
+    # rir                   Room impulse response dataset (e.g. BIRD)
+    # speech                Speech dataset (e.g. LibriSpeech)
+    # samples_count         Number of augmented segments to generate
+
 	def __init__(self, rir, speech, samples_count):
 
 		self.mix = MIX(rir=rir, speech=speech, count=[2,2], duration=80000, samples_count=samples_count)
 
+    # Return the number of samples.
+
 	def __len__(self):
 
 		return len(self.mix)
+
+    # Return the item at index idx. This returns the STFTs of microphones 1 and 2, the 
+    # ideal ratio masks for microphones 1 and 2, and the TDOA of source 1 (the target source)
 
 	def __getitem__(self, idx):
 
@@ -138,5 +191,7 @@ class IRM:
 		M2s = (X1s[1,:,:,0] ** 2 + X1s[1,:,:,1] ** 2) / (X1s[1,:,:,0] ** 2 + X1s[1,:,:,1] ** 2 + X2s[1,:,:,0] ** 2 + X2s[1,:,:,1] ** 2)
 		Ms = torch.cat((torch.unsqueeze(M1s, dim=0), torch.unsqueeze(M2s, dim=0)), 0)
 
-		return Ys, Ms
+        tau = BIRD.getTDOA(meta)[0]
+
+		return Ys, Ms, tau
 

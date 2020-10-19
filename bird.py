@@ -1,4 +1,9 @@
 
+# Author: Francois Grondin
+# Date: October 19, 2020
+# Affiliation: Universite de Sherbrooke
+# Contact: francois.grondin2@usherbrooke.ca
+
 import json
 import os
 import pandas
@@ -21,6 +26,18 @@ URLS = [ {},
 
 class BIRD(Dataset):
 
+    # Initialize the BIRD dataset. It is possible to provide a custom range for the simulation 
+    # parameters and load a subset of the samples.
+    #
+    # root                  String that points to the root folder that contains the dataset.
+    # folder_in_archive     This is the name of the folder created that will store the dataset.
+    # ext_audio             Audio extension for the files containing the RIRs.
+    # room                  Room dimension: [L_x,min, L_x,max, L_y,min, L_y,max, L_z,min, L_z,max].
+    # alpha                 Absorption coefficient: [alpha_min, alpha_max].
+    # c                     Speed of sound: [c_min, c_max].
+    # d                     Microphone spacing: [d_min, d_max].
+    # folds                 Folds to load.
+
     def __init__(
         self, 
         root, 
@@ -39,13 +56,19 @@ class BIRD(Dataset):
 
         eps = 1E-2
 
+        # Create directory if needed
+
         if not os.path.isdir(self._path):
             os.mkdir(self._path)
+
+        # Load each fold
 
         for fold in folds:
 
             directory = os.path.join(self._path, 'fold%02u' % fold)
             archive = os.path.join(self._path, 'fold%02u.zip' % fold)
+
+            # Downlod and extract fold
 
             if not os.path.isdir(directory):
                 if not os.path.isfile(archive):
@@ -55,25 +78,39 @@ class BIRD(Dataset):
                 extract_archive(archive)
                 os.remove(archive)
 
+            # Load meta data in CSV
+
             csv_file = os.path.join(directory, 'fold%02u.csv' % fold)
+
+            # Create dataframe and add the fold index
 
             df = pandas.read_csv(csv_file)
             df.insert(0, 'fold', fold)
 
+            # Compute distance between both mics
+
             dist = ((df['m1x'] - df['m2x']) ** 2 + (df['m1y'] - df['m2y']) ** 2 + (df['m1z'] - df['m2z']) ** 2) ** 0.5
+
+            # Select subset given the intervals provided by the user
 
             filter_room = (df['Lx'] >= room[0]) & (df['Lx'] <= room[1]) & (df['Ly'] >= room[2]) & (df['Ly'] <= room[3]) & (df['Lz'] >= room[4]) & (df['Lz'] <= room[5])
             filter_c = (df['c'] >= c[0]) & (df['c'] <= c[1])
             filter_alpha = (df['alpha'] >= alpha[0]) & (df['alpha'] <= alpha[1])
             filter_d = (dist >= (d[0]-eps)) & (dist <= (d[1]+eps))
-
             filter_all = filter_room & filter_c & filter_alpha & filter_d
 
+            # Append to dataframe
+            
             self._df = pandas.concat([self._df, df[filter_all]])
+
+    # Return the number of samples.
 
     def __len__(self):
 
         return len(self._df)
+
+    # Return the item at index idx. This returns the RIRs in a tensor 8x16000, and the
+    # meta data in a dict.
 
     def __getitem__(self, idx):
 
@@ -94,6 +131,8 @@ class BIRD(Dataset):
 
         return x, meta
 
+    # Compute the reverberation time RT60 from the meta data.
+
     @staticmethod
     def getRT60(meta):
 
@@ -106,6 +145,8 @@ class BIRD(Dataset):
         rt60 = (27.6310 / (alpha * c)) * (Lx*Ly*Lz/(Lx*Ly + Ly*Lz + Lz*Lx))
 
         return rt60
+
+    # Compute the time difference of arrival (TDOA) for each source from the meta data.
 
     @staticmethod
     def getTDOA(meta):
