@@ -68,7 +68,7 @@ class BIRD(Dataset):
             directory = os.path.join(self._path, 'fold%02u' % fold)
             archive = os.path.join(self._path, 'fold%02u.zip' % fold)
 
-            # Downlod and extract fold
+            # Download and extract fold
 
             if not os.path.isdir(directory):
                 if not os.path.isfile(archive):
@@ -100,7 +100,7 @@ class BIRD(Dataset):
             filter_all = filter_room & filter_c & filter_alpha & filter_d
 
             # Append to dataframe
-            
+
             self._df = pandas.concat([self._df, df[filter_all]])
 
     # Return the number of samples.
