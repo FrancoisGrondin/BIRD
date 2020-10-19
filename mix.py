@@ -90,6 +90,8 @@ class MIX:
             ys[:,0] += g * y1
             ys[:,1] += g * y2
 
+        # Apply volume
+
         v = self.volumes[idx] / np.max(ys)
 
         xs *= v
