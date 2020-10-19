@@ -34,9 +34,15 @@ pip3 install -r requirements.txt
 python3 tools/download.py
 ```
 
+or you can downloads parts of the dataset with the --fold argument such as:
+
+```
+python3 tools/download.py --folds 1
+```
+
 ## Visualize the dataset
 
-We can visualize a sample from the dataset. Suppose we want to look at sample 4, we would use the following commands:
+We can visualize a sample from the dataset. Suppose we want to look at the fourth sample in the dataset, we would use the following commands:
 
 ### Show the room configuration
 
@@ -62,9 +68,11 @@ Which returns the following plot:
 
 ![Room Impulse Responses](/images/rir.png)
 
+The microphones are displayed by the black dots whereas the sources are the colored dots
+
 ### Display the META data
 
-Launch the following script:
+To see the metadatas as presented in the article, launch the following script:
 
 ```
 python3 tools/visualize.py --view meta --item 4
