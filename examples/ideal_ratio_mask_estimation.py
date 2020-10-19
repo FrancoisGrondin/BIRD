@@ -33,13 +33,14 @@ speech_test = LIBRISPEECH(root=args.root, folder_in_archive=folder_in_archive_sp
 
 augmented_train = IRM(rir=rir_train, speech=speech_train, samples_count=10000)
 
-Ys, Ms = augmented_train[1]
+Ys, Ms, tau = augmented_train[1]
 
 Y1 = torch.squeeze(Ys[0,:,:,:], dim=0)
 Y2 = torch.squeeze(Ys[1,:,:,:], dim=0)
 M1 = torch.squeeze(Ms[0,:,:], dim=0)
 M2 = torch.squeeze(Ms[1,:,:], dim=0)
 
+print(tau)
 
 plt.subplot(2,1,1)
 plt.imshow(np.log(Y1[:,:,0]**2 + Y1[:,:,1]**2 + 1E-10), aspect='auto')

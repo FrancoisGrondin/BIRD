@@ -167,3 +167,9 @@ Which outputs the following spectrograms:
 And the following ideal ratio mask:
 
 ![IRM Mask](/images/irm_mask.png)
+
+And the target TDOA:
+
+```
+-2.3261
+```
