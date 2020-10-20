@@ -1,3 +1,8 @@
+# Author: Francois Grondin
+# Date: October 19, 2020
+# Affiliation: Universite de Sherbrooke
+# Contact: francois.grondin2@usherbrooke.ca
+
 import argparse
 import os,sys,inspect
 

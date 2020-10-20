@@ -1,4 +1,9 @@
 
+# Author: Francois Grondin
+# Date: October 19, 2020
+# Affiliation: Universite de Sherbrooke
+# Contact: francois.grondin2@usherbrooke.ca
+
 import argparse
 import matplotlib.pyplot as plt
 import os,sys,inspect
