@@ -7,14 +7,14 @@ The code is compatible with the PyTorch dataset class, which eases integration i
 
 ## Paper
 
-If you use BIRD in your research, please consider citing the [official paper](http://arxiv.org):
+If you use BIRD in your research, please consider citing the [official paper](https://arxiv.org/abs/2010.09930):
 
 ```
 @inproceedings{grondin2021bird,
   title={BIRD: Big Impulse Response Dataset},
   author={Grondin, Fran{\c{c}}ois and Lauzon, Jean-Samuel and Michaud, Simon and Ravanelli, Mirco and Michaud, Fran{\c}ois},
-  booktitle={Arxiv link},
-  year={2021}
+  eprint={arXiv:2010.09930},
+  year={2020}
 }
 ```
 
