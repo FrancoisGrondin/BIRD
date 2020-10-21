@@ -56,6 +56,8 @@ Which returns the following plot:
 
 ![Room configuration](/images/room.png)
 
+The microphones are displayed by the black dots whereas the sources are the colored dots
+
 ### Show the room impulse responses
 
 Launch the following script:
@@ -67,8 +69,6 @@ python3 tools/visualize.py --view rir --item 4
 Which returns the following plot:
 
 ![Room Impulse Responses](/images/rir.png)
-
-The microphones are displayed by the black dots whereas the sources are the colored dots
 
 ### Display the META data
 
