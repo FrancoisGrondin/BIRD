@@ -20,6 +20,10 @@ If you use BIRD in your research, please consider citing the [official paper](ht
 
 ## Download the dataset
 
+There are two ways to download the BIRD dataset: using the python script (recommended) or direct download.
+
+### Using Python script
+
 Here's how to quickly install and use the dataset:
 
 1. Install required libraries:
@@ -39,6 +43,10 @@ or you can downloads parts of the dataset with the --fold argument such as:
 ```
 python3 tools/download.py --folds 1
 ```
+
+### Direct download
+
+You can download directly the dataset [here](https://zenodo.org/record/4139416#.X5hF7FNKhl8) (or used the Python script in the next subsection)
 
 ## Visualize the dataset
 
