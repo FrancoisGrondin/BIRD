@@ -92,7 +92,7 @@ class MIX:
 
         # Apply volume
 
-        v = self.volumes[idx] / np.max(ys)
+        v = self.volumes[idx] / (np.max(np.abs(ys)) + 1e-10)
 
         xs *= v
         ys *= v
