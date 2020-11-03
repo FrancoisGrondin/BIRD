@@ -47,6 +47,7 @@ class BIRD(Dataset):
         alpha = [0.2, 0.8],
         c = [335.0, 355.0],
         d = [0.01, 0.30],
+        r = [0.0, 22.0, 0.0, 22.0, 0.0, 22.0, 0.0, 22.0],
         folds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     ):
 
@@ -91,13 +92,32 @@ class BIRD(Dataset):
 
             dist = ((df['m1x'] - df['m2x']) ** 2 + (df['m1y'] - df['m2y']) ** 2 + (df['m1z'] - df['m2z']) ** 2) ** 0.5
 
+            # Compute center of mass of mics
+
+            m0x = (df['m1x'] + df['m2x']) / 2.0
+            m0y = (df['m1y'] + df['m2y']) / 2.0
+            m0z = (df['m1z'] + df['m2z']) / 2.0
+            
+            # Distance between mics and srcs
+
+            r1 = ((df['s1x'] - m0x) ** 2 + (df['s1y'] - m0y) ** 2 + (df['s1z'] - m0z) ** 2) ** 0.5
+            r2 = ((df['s2x'] - m0x) ** 2 + (df['s2y'] - m0y) ** 2 + (df['s2z'] - m0z) ** 2) ** 0.5
+            r3 = ((df['s3x'] - m0x) ** 2 + (df['s3y'] - m0y) ** 2 + (df['s3z'] - m0z) ** 2) ** 0.5
+            r4 = ((df['s4x'] - m0x) ** 2 + (df['s4y'] - m0y) ** 2 + (df['s4z'] - m0z) ** 2) ** 0.5
+
             # Select subset given the intervals provided by the user
 
             filter_room = (df['Lx'] >= room[0]) & (df['Lx'] <= room[1]) & (df['Ly'] >= room[2]) & (df['Ly'] <= room[3]) & (df['Lz'] >= room[4]) & (df['Lz'] <= room[5])
             filter_c = (df['c'] >= c[0]) & (df['c'] <= c[1])
             filter_alpha = (df['alpha'] >= alpha[0]) & (df['alpha'] <= alpha[1])
             filter_d = (dist >= (d[0]-eps)) & (dist <= (d[1]+eps))
-            filter_all = filter_room & filter_c & filter_alpha & filter_d
+            filter_r1 = (r1 >= r[0]) & (r1 <= r[1])
+            filter_r2 = (r2 >= r[2]) & (r2 <= r[3])
+            filter_r3 = (r3 >= r[4]) & (r3 <= r[5])
+            filter_r4 = (r4 >= r[6]) & (r4 <= r[7])
+            filter_r = filter_r1 & filter_r2 & filter_r3 & filter_r4            
+            
+            filter_all = filter_room & filter_c & filter_alpha & filter_d & filter_r
 
             # Append to dataframe
 
@@ -201,3 +221,5 @@ class BIRD(Dataset):
             tdoas.append(tau)
 
         return tdoas
+
+    
