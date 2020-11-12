@@ -35,7 +35,7 @@ class MIX:
 
     def __len__(self):
 
-        return len(self.df)
+        return len(self.rirs)
 
     # Return the mixed segments. The segments are of dimensions (duration x 2).
     # It also returns the meta data for the rir, the number of active sources
