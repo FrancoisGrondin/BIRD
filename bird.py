@@ -10,7 +10,7 @@ import pandas
 import torchaudio
 
 from torch.utils.data import Dataset
-from torchaudio.datasets.utils import (download_url, extract_archive, walk_files)
+from torchaudio.datasets.utils import (download_url, extract_archive)
 
 URLS = [ {},
          {'url': 'https://www.dropbox.com/s/6dvlgpo1eo7me4v/fold01.zip?dl=1', 'checksum': None},
