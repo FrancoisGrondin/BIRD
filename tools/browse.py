@@ -16,7 +16,7 @@ from bird import BIRD
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--root', default='', type=str, help='Root to save the datasets')
-parser.add_argument('--folds', default=[1,2,3,4,5,6,7,8,9,10], type=int, nargs='+', help='List of folds')
+parser.add_argument('--folds', default=list(range(0,101)), type=int, nargs='+', help='List of folds (between 1 and 100)')
 parser.add_argument('--room', default=[5.0, 15.0, 5.0, 15.0, 3.0, 4.0], type=float, nargs='+', help='Room dimensions')
 parser.add_argument('--alpha', default=[0.2, 0.8], type=float, nargs='+', help='Alpha range')
 parser.add_argument('--c', default=[335.0, 355.0], type=float, nargs='+', help='Speed of sound range')
