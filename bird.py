@@ -138,7 +138,7 @@ class BIRD(Dataset):
         c = [335.0, 355.0],
         d = [0.01, 0.30],
         r = [0.0, 22.0, 0.0, 22.0, 0.0, 22.0, 0.0, 22.0],
-        folds = list(range(0,101)),
+        folds = list(range(1,101)),
     ):
 
         self._path = os.path.join(root, folder_in_archive)

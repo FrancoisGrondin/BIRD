@@ -17,7 +17,7 @@ from bird import BIRD
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--root', default='', type=str, help='Root to save the datasets')
-parser.add_argument('--folds', default=list(range(0,101)), type=int, nargs='+', help='List of folds (between 1 and 100)')
+parser.add_argument('--folds', default=list(range(1,101)), type=int, nargs='+', help='List of folds (between 1 and 100)')
 parser.add_argument('--item', default=0, type=int, help='Sample index in the dataset')
 parser.add_argument('--view', default='room', type=str, choices=['room', 'rir', 'meta'])
 
